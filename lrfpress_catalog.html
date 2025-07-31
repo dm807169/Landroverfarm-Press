@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landroverfarm Press Catalog 2008-2025</title>
+    <style>
+        /* Retro Web 1.0 styling */
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #fff;
+            border: 2px solid #333;
+            padding: 20px;
+            box-shadow: 5px 5px 0px 0px #aaa;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00008b; /* Dark Blue */
+            border-bottom: 2px dashed #00008b;
+            padding-bottom: 10px;
+        }
+
+        .intro {
+            text-align: justify;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .controls input,
+        .controls select {
+            padding: 8px;
+            border: 1px solid #333;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #fff;
+        }
+
+        #publications-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .publication-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .publication-item h3 {
+            margin-top: 0;
+            color: #8b0000; /* Dark Red */
+        }
+
+        .publication-item p {
+            margin: 5px 0;
+        }
+
+        .publication-item strong {
+            color: #000;
+        }
+
+        .publication-item .moods-themes {
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 600px) {
+            .container {
+                border: none;
+                box-shadow: none;
+                padding: 10px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Landroverfarm Press Catalog</h1>
+        <div class="intro">
+            <p>A comprehensive overview of the publishing output of David Merritt and Landroverfarm Press from 2008 to 2025. This catalog is generated from a master spreadsheet and provides details on each publication, including its format, collections, moods, and themes. Use the search and filter options below to navigate the archive.</p>
+        </div>
+
+        <div class="controls">
+            <input type="text" id="search-input" placeholder="Search by title, moods, or themes...">
+            <select id="collections-filter">
+                <option value="">Filter by Collection...</option>
+            </select>
+        </div>
+
+        <ul id="publications-list">
+            <p>Loading publications...</p>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const csvData = `isbn,title,first published,format,notes,collections,status,type,moods,themes
+9780985295208,geek prayers,2008,"32p, A6 collection","geek prayer #4, 9, 17, 22 also A3 foldouts",Geek Prayers,active,collection,"contemplative, ritualistic, ironic","technology, spirituality, code-as-prayer"
+9780985295215,sniper rifle,2008,A3 foldout,,Coalface,active,A3 foldout,"tense, violent, surreal","war, masculinity, absurdity"
+9780985295222,"inorganic 1, 2, 3.",2008,"12p, A5","Also A3 foldout #1, 2, 3.",Mixture of Wishes,active,A3 foldout,"detached, clinical, observational","industry, alienation, systems"
+9780985295239,first friday out,2008,A5 foldout + A5 10p booklet,,fiddlesticks,active,foldout,"wistful, nostalgic, fleeting","work, release, ritual"
+9780985295246,grist,2008,"48p, A5",38 poem collection,,active,collection,"weary, rhythmic, grounded","labour, repetition, survival"
+9780985295253,12 steps / microsoft addict,2008,A5 foldout + A5 10p booklet,,fiddlesticks,active,foldout,"self-aware, ironic, anxious","addiction, tech, identity"
+9780985295260,"matt is a geek, 13.",2008,A5 foldout + A5 10p booklet,,fiddlesticks,active,foldout,"proud, defiant, youthful","identity, nerd culture, belonging"
+9780985295277,up through the gears,2008,A5 foldout + A5 10p booklet,,fiddlesticks,active,foldout,"kinetic, striving, mechanical","progress, effort, motion"
+9780985295284,a mixture of wishes,2008,"44p, A3/A4/A5",36 poem collection,Mixture of Wishes,active,collection,"melancholy, hopeful, fragmented","desire, loss, longing"
+9780985295291,nice things,2008,A3 foldout,,Mixture of Wishes,active,foldout,"bittersweet, ironic, tender","small joys, irony, everyday beauty"
+9780986459504,"not sleeping, eh?",2009,A3 foldout,,Mixture of Wishes,active,foldout,"insomniac, restless, intimate","anxiety, night, connection"
+9780986459511,BOXSETS + POETRY BRICKS,2009,A3 poems in boxes,"10, 12, 15, 20, 25, 40 poems",,active,boxset,"playful, conceptual, tactile","form, materiality, distribution"
+9780986459528,curious diets,2009,A3 foldout,,Mixture of Wishes,active,foldout,"absurd, satirical, bodily","consumption, control, body"
+9780986459535,hydrosliding,2009,A3 foldout,,Overdraft,active,foldout,"fluid, unstable, precarious","debt, balance, collapse"
+9780986459542,tepid pool,2009,A3 foldout,,Mixture of Wishes,active,foldout,"apathetic, stagnant, ironic","indifference, waiting, inertia"
+9780986459559,machine shop,2009,A3 foldout,,Mixture of Wishes + Pastoral,active,foldout,"industrial, rhythmic, grounded","labour, machinery, rural industry"
+9780986459566,speed of sound,2009,A3 foldout,,Mixture of Wishes,active,foldout,"urgent, fast, transient","velocity, communication, rupture"
+9780986459573,"sad dog, happy dog",2009,A3 foldout,,Best Friend,active,foldout,"tender, mournful, loyal","animals, companionship, grief"
+9780986459580,why i am copyleft,2009,A5 foldout,,fiddlesticks,active,foldout,"defiant, political, principled","open source, resistance, ethics"
+9780986459597,bigger picture,2009,A3 foldout,,Mixture of Wishes,active,foldout,"reflective, distanced, philosophical","perspective, scale, meaning"
+9780987654908,kibble,2010,"46p, A5 & A6",30 poem collection,,active,collection,"crumbly, fragmented, everyday","scraps, survival, minimalism"
+9780987654915,datura,2010,A3 foldout,55 5-Minute poems collection,5-Minute Poems,active,foldout,"hallucinatory, dreamlike, dangerous","toxicity, altered states, risk"
+9780987654922,barcode,2010,"46p, A5",32 poem collection,,wip,collection,"systematic, coded, detached","surveillance, identity, data"
+9780987654939,where you at bro? (Auto-bio note #9),2010,A5 foldout + A5 10p booklet,,fiddlesticks + Coalface,active,foldout,"casual, urgent, fraternal","friendship, location, connection"
+9780987654946,good wish list #8,2010,A3 foldout,,Mixture of Wishes,active,foldout,"hopeful, ironic, fragile","desire, futility, kindness"
+9780987654953,inconsolable,2010,A3 foldout,,Mixture of Wishes,active,foldout,"grieving, raw, unredeemed","loss, mourning, isolation"
+9780987654960,migration,2010,A3 foldout,,Coalface,active,foldout,"weary, inevitable, moving","displacement, labour, journey"
+9780987654977,optimist,2010,A3 foldout,,Mixture of Wishes,active,foldout,"ironic, fragile, hopeful","resilience, doubt, perseverance"
+9780987654984,if you ask,2010,A3 foldout,,Coalface,active,foldout,"guarded, conditional, wary","trust, vulnerability, silence"
+9780987654991,motherly advice,2010,A3 foldout,,Mixture of Wishes,active,foldout,"warm, nostalgic, instructive","family, care, memory"
+9780987667601,coffee x5,2011,"A3 foldout, A5 12p",5 poem collection,,active,foldout+booklet,"ritualistic, habitual, caffeinated","routine, repetition, small comforts"
+9780987667618,how to be a hen,2011,A3 foldout,,Pastoral,active,foldout,"absurd, instructional, rural","animals, domesticity, survival"
+9780987667625,rural interlude,2011,A3 foldout,,Pastoral,active,foldout,"peaceful, temporary, observational","countryside, pause, reflection"
+9780987667632,death of Mrs. Stalin,2011,A3 foldout,,Pastoral,active,foldout,"surreal, darkly comic, absurd","history, myth, rural legend"
+9780987667649,a poetical aside,2011,A3 foldout,,Coalface,active,foldout,"wry, meta, self-aware","poetry, craft, interruption"
+9780987667656,"speak, act, fantail",2011,A3 foldout,,Pastoral,active,foldout,"urgent, fragmented, ecological","nature, communication, birds"
+9780987667663,hiatus,2011,A3 foldout,,Coalface,active,foldout,"quiet, suspended, waiting","pause, rest, breath"
+9780987667670,what is the rub?,2011,A5 foldout + A5 10p booklet,,fiddlesticks,active,foldout,"frustrated, interrogative, sharp","conflict, friction, struggle"
+9780987667687,taumarunui railway station #1,2011,A3 foldout,,You Sleep Uphill,active,foldout,"lonely, liminal, observational","transit, small towns, waiting"
+9780987667694,taumarunui railway station #7,2011,A3 foldout,,Mixture of Wishes,active,foldout,"nostalgic, specific, quiet","place, memory, journey"
+,ache / burn / long,2012,A3 foldout,,Pastoral,active,foldout,"aching, persistent, physical","pain, endurance, body"
+,the process,2012,A3 foldout,,Coalface,active,foldout,"methodical, relentless, procedural","work, systems, repetition"
+,determination,2012,A3 foldout,,Mixture of Wishes + Coalface,active,foldout,"resolute, stubborn, focused","will, effort, survival"
+,watching things fall apart,2012,A3 foldout,,Coalface,active,foldout,"helpless, observational, sad","decay, collapse, witnessing"
+,locks/cops,2012,A3 foldout,,Mixture of Wishes,active,foldout,"paranoid, tense, surveilled","control, authority, resistance"
+,"dinner, not!",2012,A3 foldout,,Mixture of Wishes,active,foldout,"frustrated, abrupt, domestic","family, conflict, refusal"
+,retrospective,2012,A3 foldout,,Mixture of Wishes,active,foldout,"reflective, distant, evaluative","memory, time, self"
+,two!,2012,A3 foldout,"2 poems; New editions 2016, 2021",,active,foldout,"minimal, emphatic, dual","duality, contrast, brevity"
+,geek prayer #4,2013,A3 foldout,,Geek Prayers,active,foldout,"ritualistic, devotional, digital","code, faith, repetition"
+,geek prayer #9,2013,A3 foldout,,Geek Prayers,active,foldout,"ritualistic, devotional, digital","code, faith, repetition"
+,minimum wage slaves,2013,A3 foldout,,fiddlesticks,active,foldout,"angry, defiant, exploited","labour, class, resistance"
+,fiddlesticks,2013,"36p, A5",14 poem/rants collection New 2025 edition,fiddlesticks,active,collection,"frenetic, ranting, energetic","anger, absurdity, protest"
+,a small crisis of mid-career confidence,2013,"12p, A6",1 poem; Also Compound Press 2018,,active,booklet,"anxious, self-doubting, wry","identity, creativity, doubt"
+,today / contents of pockets,2013,"16p, A6",2 poems,,active,booklet,"intimate, observational, tactile","everyday, self, materiality"
+,beach scene #25,2013,A3 foldout,,Mixture of Wishes,active,foldout,"still, reflective, coastal","nature, memory, pause"
+,broken / embrace,2013,A3 foldout,,,active,foldout,"contradictory, tender, fractured","love, damage, intimacy"
+,mixed intellects,2013,A3 foldout,,Mixture of Wishes,active,foldout,"confused, collaborative, chaotic","thought, dialogue, dissonance"
+,morning tea #3-5,2013,A3 foldout,2 poems,,active,foldout,"domestic, routine, quiet","ritual, pause, connection"
+,pause / refresh,2013,A3 foldout,,,active,foldout,"digital, breathless, temporary","technology, rest, reboot"
+,android app#1 nicotine addicts,2013,A3 foldout,12p A6,Fiddlesticks,active,foldout,"addicted, mechanical, ironic","habit, tech, dependency"
+,perfect fit,2013,A3 foldout,,You Sleep Uphill,active,foldout,"tender, resolved, intimate","love, belonging, connection"
+,the fear,2013,A3 foldout,,You Sleep Uphill,active,foldout,"dread, anticipatory, bodily","anxiety, vulnerability, presence"
+,trigger,2013,A3 foldout,,Mixture of Wishes,active,foldout,"reactive, sudden, psychological","trauma, memory, response"
+,vote,2014,A3 foldout,,You Sleep Uphill,active,foldout,"urgent, civic, fragile","democracy, hope, agency"
+,geek prayer #17,2014,A3 foldout,,Geek Prayers,active,foldout,"ritualistic, devotional, digital","code, faith, repetition"
+,bodies,2014,A3 foldout,,Pastoral + Sleep Uphill,active,foldout,"physical, present, vulnerable","body, intimacy, mortality"
+,geek prayers 3rd edition,2014,36p A6,IBM punchcard cover,,active,collection,"mechanical, sacred, nostalgic","technology, ritual, memory"
+,coalface,2014,A3 foldout,,Coalface,active,foldout,"harsh, enduring, industrial","labour, struggle, survival"
+,I did not invent,2014,A3 foldout,,You Sleep Uphill,active,foldout,"defiant, humble, existential","self, origin, authenticity"
+,#13; the mongrel,2014,A3 foldout,,You Sleep Uphill,active,foldout,"hybrid, wild, untamed","identity, mix, resistance"
+,tail lights,2014,A3 foldout,,Pastoral,active,foldout,"fleeting, observational, moving","departure, distance, memory"
+,wander,2014,A3 foldout,,,active,foldout,"aimless, free, searching","journey, uncertainty, exploration"
+,traction,2014,A3 foldout,,Coalface,active,foldout,"gripping, effortful, mechanical","progress, resistance, force"
+,canary,2014,A3 foldout,,Coalface,active,foldout,"warning, fragile, symbolic","danger, sensitivity, labour"
+,geek prayer #22,2014,A3 foldout,IBM punchcard cover; Also in Geek Prayers,Geek Prayers,active,foldout,"ritualistic, devotional, digital","code, faith, repetition"
+,holiday,2014,A3 foldout,,Mixture of Wishes,active,foldout,"bittersweet, absent, ironic","escape, longing, absence"
+,we already half dress for war,2015,A3 foldout,,You Sleep Uphill,active,foldout,"precarious, anticipatory, collective","conflict, readiness, society"
+,The lover's table #3,2015,A3 foldout,,You Sleep Uphill,active,foldout,"intimate, domestic, fragile","love, relationship, care"
+,entwined,2015,A3 foldout,,You Sleep Uphill,active,foldout,"connected, physical, inseparable","love, unity, bodies"
+,currencies,2015,A3 foldout,,Coalface + Sleep Uphill,active,foldout,"exchange, value, unstable","economy, emotion, debt"
+,nerves,2015,A3 foldout,,Coalface + Sleep Uphill,active,foldout,"tense, bodily, reactive","anxiety, sensitivity, response"
+,how death works #1,2015,A3 foldout,,You Sleep Uphill,active,foldout,"clinical, curious, calm","mortality, process, acceptance"
+,how death works #3,2015,A3 foldout,,You Sleep Uphill,active,foldout,"clinical, curious, calm","mortality, process, acceptance"
+,morning tea #7,2015,A3 foldout,,Coalface + Sleep Uphill,active,foldout,"domestic, routine, quiet","ritual, pause, connection"
+,lifeboat #9,2016,A3 foldout,,You Sleep Uphill + Bunkerland,active,foldout,"precarious, hopeful, survival","rescue, crisis, hope"
+,bless,2016,A3 foldout,,You Sleep Uphill,active,foldout,"grateful, quiet, sacred","grace, presence, thanks"
+,block the sun,2017,A3 foldout,,You Sleep Uphill,active,foldout,"defiant, protective, intense","love, shielding, passion"
+,early/late,2017,A3 foldout,,You Sleep Uphill,active,foldout,"temporal, ambiguous, relational","time, meeting, connection"
+,good stuff #1-7,2017,A3 foldout,,You Sleep Uphill,active,foldout,"affirming, accumulative, joyful","small joys, gratitude, lists"
+,airplane mode,2017,A3 foldout,,You Sleep Uphill,active,foldout,"detached, quiet, internal","disconnection, reflection, self"
+,listen,2017,A3 foldout,,Pastoral + Sleep Uphill,active,foldout,"attentive, urgent, ecological","attention, nature, relationship"
+,you sleep uphill,2017,A3 foldout,,You Sleep Uphill,active,foldout,"tender, spatial, intimate","love, care, domesticity"
+,dream #3,2017,A3 foldout,,You Sleep Uphill,active,foldout,"uncanny, symbolic, subconscious","dreams, psyche, image"
+,sad rocks,2017,A3 foldout,,You Sleep Uphill,active,foldout,"melancholy, geological, still","grief, nature, permanence"
+,coverage,2017,A3 foldout,,Coalface + Sleep Uphill,active,foldout,"exposed, vulnerable, social","visibility, media, self"
+,you fumble,2018,A3 foldout,,You Sleep Uphill,active,foldout,"clumsy, tender, intimate","love, awkwardness, care"
+,most things interest me,2018,A3 foldout,,Coalface,active,foldout,"curious, open, attentive","attention, wonder, engagement"
+,strange habits,2018,A3 foldout,,You Sleep Uphill,active,foldout,"quirky, habitual, intimate","routine, love, eccentricity"
+,autobio note #9,2018,"12p, A5","New version of 'where you at, bro?'",you Sleep Uphill,active,booklet,"casual, reflective, fraternal","friendship, identity, connection"
+,neo-liberal handbook,2018,"12p, A5 + e-book",,Sleep Uphill + Bunkerland,active,booklet,"satirical, political, sharp","capitalism, critique, resistance"
+,ill-wish list #12,2018,A3 foldout,,Mixture of Wishes,active,foldout,"vengeful, ironic, cathartic","anger, curses, release"
+,yellow cars,2018,A3 foldout,,Mixture of Wishes,active,foldout,"observational, specific, nostalgic","memory, colour, urban life"
+,pastoral,2019,"48p, A5",24 poem collection. New 2025 edition,Pastoral,active,collection,"rural, reflective, grounded","countryside, animals, quiet"
+,coalface,2019,"48p, A5","24 poem collection. New 2025 edition,",Coalface,active,collection,"harsh, enduring, industrial","labour, struggle, survival"
+,3 tents,2019,A3 foldout,,You Sleep Uphill,active,foldout,"temporary, fragile, intimate","shelter, love, impermanence"
+,dereliction,2020,A3 foldout,,Pastoral,active,foldout,"abandoned, quiet, decaying","ruin, neglect, time"
+,redacted,2021,A3 foldout,,,active,foldout,"censored, mysterious, absent","secrecy, loss, silence"
+,tour,2021,A3 foldout,,Coalface,active,foldout,"mobile, transient, observational","journey, labour, movement"
+,chatroom #4,2021,A3 foldout,,,active,foldout,"digital, fragmented, lonely","online, connection, isolation"
+,circles,2022,A3 foldout,,You Sleep Uphill,active,foldout,"repetitive, intimate, endless","love, routine, cycles"
+,1979,2022,A3 foldout,,Bunkerland,active,foldout,"nostalgic, historical, personal","memory, time, youth"
+,denial,2022,A3 foldout,,,active,foldout,"refusing, numb, defensive","avoidance, trauma, silence"
+,instinct,2022,A3 foldout,,,active,foldout,"intuitive, animal, bodily","instinct, survival, self"
+,you sleep uphill,2023,"86p, A5",44 poem collection. New 2025 edition,You Sleep Uphill,active,collection,"tender, intimate, domestic","love, care, relationship"
+,best friend ,2025,"32p, A5",16 poem collection on dogs. New 2025 edition,Best Friend,active,collection,"loyal, mournful, joyful","animals, companionship, grief"
+,dead men's clothing,2018,A3 foldout,,,active,foldout,"haunted, inherited, spectral","grief, legacy, absence"
+,end of the world,2018-2023,A3 foldout,,Overdraft + Bunkerland,active,foldout,"calm, accepting, absurd","apocalypse, resignation, humour"
+,Blowhole,2023,CD,Live show from Punakaiki 2021,,out of stock temporarily,audio,"gentle, performative, visceral","voice, breath, viola"
+,Eyes Down,2023,A3 foldout,,Bunkerland,active,foldout,"shameful, guilty, internal","embarrassment, introspection, silence"
+,Beard trim,2023,A3 foldout,,Bunkerland,active,foldout,"intimate, mundane, gendered","grooming, self, ritual"
+,Property Ladder,2023,A3 foldout,,Bunkerland,active,foldout,"satirical, anxious, economic","housing, class, aspiration"
+,Spinning Noises,2022,A3 foldout,,Bunkerland,active,foldout,"mechanical, hypnotic, anxious","machines, sound, obsession"
+,Bunkerland,2025,92p A5,50+ poem/writing collection,Bunkerland,active,collection,"archival, layered, urban","memory, place, survival"
+,curator notes,2019,A5 booklet,Meta-text in Coalface collection,Coalface,active,essay,"wry, self-aware, archival","publishing, curation, legacy"
+,Whispers,2025,A5 booklet,,,wip,collection,,
+,Whats the time? 1966!,,16p A6,Reprint of Julian Dashper catalog 1996,Bunkerland,wip,reprint,"nostalgic, artistic, historical","art, time, memory"
+,Beginning of the End,,96p A5,74 collected poems 1986–2002,,wip,collected,"reflective, summative, historical","legacy, time, archive"
+,nature of the reading,,A3 foldout,First published in Minarets (Compound Press 2013),Coalface,wip,essay,"meta, critical, observational","performance, audience, poetry"
+,creative writing exercises,,12p A6,6 poem collection,,wip,collection,"playful, instructional, generative","writing, prompts, creation"
+,13 things about chewing gum.,,A3 foldout,,,wip,foldout,"absurd, obsessive, mundane","everyday, habit, obsession"
+,barcode,,36p A6,32 poem collection. new 2025 edition,,wip,collection,"systematic, coded, detached","surveillance, identity, data"
+,in overdraft at the bank of human kindness,,"42p, A4&A5",Reprint of 1987 work,,wip,reprint,"grieving, exhausted, ironic","empathy, burnout, economy"
+,the flour mill,2025,A5 booklet,Combination of Grist + Kibble collections,,wip,collection,,`;
+
+            function parseCSV(csvText) {
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                const headers = lines[0].split(',').map(header => header.trim().replace(/^"|"$/g, ''));
+                const data = lines.slice(1).map(line => {
+                    const values = parseCSVLine(line);
+                    return headers.reduce((obj, header, index) => {
+                        obj[header] = values[index] ? values[index].replace(/^"|"$/g, '') : '';
+                        return obj;
+                    }, {});
+                });
+                return data;
+            }
+
+            function parseCSVLine(text) {
+                const result = [];
+                let inQuote = false;
+                let currentItem = '';
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+                    if (char === '"') {
+                        inQuote = !inQuote;
+                    } else if (char === ',' && !inQuote) {
+                        result.push(currentItem);
+                        currentItem = '';
+                    } else {
+                        currentItem += char;
+                    }
+                }
+                result.push(currentItem);
+                return result;
+            }
+
+            const publications = parseCSV(csvData);
+            const publicationsList = document.getElementById('publications-list');
+            const searchInput = document.getElementById('search-input');
+            const collectionsFilter = document.getElementById('collections-filter');
+
+            function displayPublications(filteredPublications) {
+                publicationsList.innerHTML = ''; // Clear the list
+                if (filteredPublications.length === 0) {
+                    publicationsList.innerHTML = '<p>No publications found matching your criteria.</p>';
+                    return;
+                }
+
+                filteredPublications.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'publication-item';
+                    li.innerHTML = `
+                        <h3>${item.title || 'Untitled'}</h3>
+                        <p><strong>First Published:</strong> ${item['first published'] || 'N/A'}</p>
+                        <p><strong>Format:</strong> ${item.format || 'N/A'}</p>
+                        <p><strong>Collections:</strong> ${item.collections || 'N/A'}</p>
+                        <p><strong>Status:</strong> ${item.status || 'N/A'}</p>
+                        <div class="moods-themes">
+                            <strong>Moods:</strong> ${item.moods || 'N/A'}<br>
+                            <strong>Themes:</strong> ${item.themes || 'N/A'}
+                        </div>
+                    `;
+                    publicationsList.appendChild(li);
+                });
+            }
+
+            function populateCollectionsFilter() {
+                const collections = new Set();
+                publications.forEach(item => {
+                    if (item.collections) {
+                        item.collections.split('+').forEach(collection => {
+                            collections.add(collection.trim());
+                        });
+                    }
+                });
+                const sortedCollections = Array.from(collections).sort();
+                sortedCollections.forEach(collection => {
+                    const option = document.createElement('option');
+                    option.value = collection;
+                    option.textContent = collection;
+                    collectionsFilter.appendChild(option);
+                });
+            }
+
+            function filterPublications() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedCollection = collectionsFilter.value;
+
+                const filtered = publications.filter(item => {
+                    const matchesSearch = (
+                        (item.title && item.title.toLowerCase().includes(searchTerm)) ||
+                        (item.moods && item.moods.toLowerCase().includes(searchTerm)) ||
+                        (item.themes && item.themes.toLowerCase().includes(searchTerm))
+                    );
+
+                    const matchesCollection = !selectedCollection || (item.collections && item.collections.split('+').map(c => c.trim()).includes(selectedCollection));
+
+                    return matchesSearch && matchesCollection;
+                });
+
+                displayPublications(filtered);
+            }
+
+            searchInput.addEventListener('input', filterPublications);
+            collectionsFilter.addEventListener('change', filterPublications);
+
+            // Initial load
+            populateCollectionsFilter();
+            displayPublications(publications);
+        });
+    </script>
+</body>
+</html>
